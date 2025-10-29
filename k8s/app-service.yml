@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: ecommerce-service
   namespace: ecommerce
+  labels:
+    app: ecommerce-app  
 spec:
   selector:
     app: ecommerce-app

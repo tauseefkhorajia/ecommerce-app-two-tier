@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: ecommerce-app
-        image: your-dockerhub-username/ecommerce-app:latest
+        image: tauseefkhorajia/ecommerce-app-two-tier:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
