@@ -7,7 +7,7 @@ WORKDIR /app/client
 COPY client/package*.json ./
 
 # Install frontend dependencies
-RUN npm ci --silent
+RUN npm install --silent
 
 # Copy frontend source code
 COPY client/ ./
@@ -22,7 +22,7 @@ WORKDIR /app
 
 # Install production dependencies
 COPY server/package*.json ./
-RUN npm ci --only=production --silent
+RUN npm install --only=production --silent
 
 # Copy backend source code
 COPY server/ ./
