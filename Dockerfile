@@ -7,13 +7,16 @@ WORKDIR /app/client
 COPY client/package*.json ./
 
 # Install frontend dependencies
-RUN npm install --silent
+RUN npm install
 
 # Copy frontend source code
 COPY client/ ./
 
 # Build React app for production
 RUN npm run build
+
+# Verify build folder exists
+RUN ls -la /app/client/build
 
 # Stage 2: Setup Backend with Frontend Build
 FROM node:18-alpine
@@ -22,13 +25,16 @@ WORKDIR /app
 
 # Install production dependencies
 COPY server/package*.json ./
-RUN npm install --only=production --silent
+RUN npm install --only=production
 
 # Copy backend source code
 COPY server/ ./
 
 # Copy built frontend from previous stage
-COPY --from=frontend-build /app/client/build ./client/build
+COPY --from=frontend-build /app/client/build /app/client/build
+
+# Verify frontend files are copied
+RUN ls -la /app/client/build
 
 # Create non-root user for security
 RUN addgroup -g 1001 -S nodejs && \

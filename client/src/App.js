@@ -212,7 +212,7 @@ function App() {
       </div>
 
       <footer className="app-footer">
-        <p>© 2025 E-Commerce App | Built with Node.js, React & MySQL</p>
+        <p>© Designed & Developed by Tosif Khorajia</p>
       </footer>
     </div>
   );

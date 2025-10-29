@@ -172,12 +172,29 @@ app.delete('/api/products/:id', async (req, res) => {
 });
 
 // Serve static files from React build
-app.use(express.static(path.join(__dirname, '../client/build')));
+const buildPath = path.join(__dirname, 'client/build');
+console.log('Looking for frontend build at:', buildPath);
 
-// All other routes return React app
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-});
+// Check if build directory exists
+const fs = require('fs');
+if (fs.existsSync(buildPath)) {
+  console.log('✅ Frontend build found');
+  app.use(express.static(buildPath));
+  
+  // All other routes return React app
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(buildPath, 'index.html'));
+  });
+} else {
+  console.log('⚠️  Frontend build not found at:', buildPath);
+  app.get('*', (req, res) => {
+    res.status(404).json({ 
+      error: 'Frontend not found', 
+      message: 'Please build the React app first',
+      expectedPath: buildPath
+    });
+  });
+}
 
 // Start server
 async function startServer() {
